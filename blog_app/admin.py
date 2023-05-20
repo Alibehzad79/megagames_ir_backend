@@ -1,5 +1,5 @@
 from django.contrib import admin
-from blog_app.models import Article, Tag ,Category ,Gallery ,Downloadbox ,Comment
+from blog_app.models import Article, Tag ,Category ,Gallery ,Downloadbox ,Comment, Seo
 
 # Register your models here.
 
@@ -17,13 +17,20 @@ class ArticleAdmin(admin.ModelAdmin):
     list_editable = ('active',)
     list_filter = ('active', 'date_created', 'category__name', 'category__slug', 'tags')
     search_fields = ('title', 'content', 'id_post', 'category__name', 'category__slug', 'tags__name', 'tags__slug')
-
+    list_per_page = 10
+    
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('name', 'email', 'date_send', 'status')
     list_filter = ('status', 'date_send')
     list_editable = ('status',)
     search_fields = ('name', 'email', 'text', 'article__title')
-
+    list_per_page = 10
+    
+@admin.register(Seo)
+class SeoAdmin(admin.ModelAdmin):
+    list_display = ('__str__', 'creator_name', 'date_created', 'date_updated')
+    search_fields = ('artice__title', 'creator__username')    
+    
 admin.site.register(Category)
 admin.site.register(Tag)  
