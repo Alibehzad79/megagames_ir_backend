@@ -53,7 +53,7 @@ class Article(models.Model):
     def get_absolute_url(self):
         return reverse("article_detail", kwargs={"pk": self.pk, 'title': self.title})
     def short_url(self):
-        return reverse("article_detail_2", kwargs={"pk": self.id_post})
+        return reverse("article_detail_2", kwargs={"id_post": self.id_post})
 
 class Gallery(models.Model):
     article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING)
