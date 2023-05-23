@@ -1,1 +1,18 @@
 {{article.title}}
+<form action="{% url 'article_detail' article.id article.title  %}" method="post">
+    {% csrf_token %}
+    {{form.as_p}}
+    <button type="submit">Send</button>
+</form>
+{% for img in article.galleries.all %}
+    <img src="{{img.image.url}}" alt="{{img.title}}">
+{% endfor %}
+{% for download_box in article.download_boxs.all %}
+    <a href="{{download_box.url}}">{{download_box.title}}</a>
+{% endfor %}
+
+<hr>
+
+{% for post in related_posts %}
+    <a href="{{post.get_absolute_url}}">{{post.title}}</a>
+{% endfor %}

@@ -46,6 +46,7 @@ class Article(models.Model):
     class Meta:
         verbose_name = _("مقاله")
         verbose_name_plural = _("مقاله ها")
+        ordering = ['-date_created']
 
     def __str__(self):
         return self.title
@@ -56,9 +57,9 @@ class Article(models.Model):
         return reverse("article_detail_2", kwargs={"id_post": self.id_post})
 
 class Gallery(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING)
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name='galleries')
     title = models.CharField(verbose_name=_("عنوان"), max_length=50)
-    image = models.ImageField(verbose_name=_("تصویر"), upload_to=f"images/galleries/{article}/")
+    image = models.ImageField(verbose_name=_("تصویر"), upload_to=f"images/galleries/")
 
     class Meta:
         verbose_name = _("عکس")
@@ -68,7 +69,7 @@ class Gallery(models.Model):
         return self.title
 
 class Downloadbox(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING)
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name='download_boxs')
     title = models.CharField(verbose_name=_("عنوان"), max_length=50)
     url = models.URLField(verbose_name=_("لینک دانلود فایل"), max_length=200)
     
@@ -81,7 +82,7 @@ class Downloadbox(models.Model):
         return self.title
  
 class Comment(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING)
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name="article_commnets")
     name = models.CharField(verbose_name=_("نام و نام خانوادگی"), max_length=50)
     email = models.EmailField(verbose_name=_("ایمیل"), max_length=254)
     text = models.TextField(verbose_name=_("متن نظر"))

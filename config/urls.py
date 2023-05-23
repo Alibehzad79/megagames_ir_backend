@@ -23,8 +23,8 @@ from blog_app.views import ArticleListView, article_detail, article_detail_2
 
 urlpatterns = [
     path('', ArticleListView.as_view()),
-    path('<pk>/<title>/', article_detail, name='article_detail'),
-    path('<id_post>/', article_detail_2, name='article_detail_2'),
+    path('articles/<pk>/<title>/', article_detail, name='article_detail'),
+    path('articles/<id_post>/', article_detail_2, name='article_detail_2'),
     path('admin/', admin.site.urls),
 ]
 
