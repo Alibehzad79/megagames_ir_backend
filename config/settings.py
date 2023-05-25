@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'blog_app.apps.BlogAppConfig',
     'settings_app.apps.SettingsAppConfig',
     'tools_app.apps.ToolsAppConfig',
+    'search_app.apps.SearchAppConfig',
     
     # packeges
     'ckeditor',
