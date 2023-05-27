@@ -45,3 +45,8 @@ def article_detail_2(request, *args, **kwargs):
     pk = kwargs['id_post']
     article = get_object_or_404(Article.objects.filter(id_post=pk))
     return redirect('article_detail', article.id, article.title)
+
+# TODO get buy Tag and Ctagory | set visit count
+
+
+# TODO create ads system for all pages

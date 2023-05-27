@@ -4,29 +4,46 @@ from django.utils.translation import gettext_lazy as _
 from django.contrib.auth import get_user_model
 from ckeditor.fields import RichTextField
 from django.utils.crypto import get_random_string
+from django.db.models import Q
 # Create your models here.
 
 class Tag(models.Model):
     name = models.CharField(verbose_name=_("نام تگ"), max_length=50, unique=True)
     slug = models.SlugField(verbose_name=_("اسلاگ"), unique=True)
+    visit_count = models.IntegerField(verbose_name=_("تعداد بازدید"), default=0)
 
     class Meta:
         verbose_name = _("تگ")
         verbose_name_plural = _("تگ ها")
 
     def __str__(self):
-        return self.name + " | " + self.slug 
+        return self.name
     
 class Category(models.Model):
     name = models.CharField(verbose_name=_("نام دسته بندی"), max_length=50, unique=True)
     slug = models.SlugField(verbose_name=_("اسلاگ"), unique=True)
+    visit_count = models.IntegerField(verbose_name=_("تعداد بازدید"), default=0)
 
     class Meta:
         verbose_name = _("دسته بندی")
         verbose_name_plural = _("دسته بندی ها")
 
     def __str__(self):
-        return self.name + " | " + self.slug   
+        return self.name 
+class ArticleManager(models.Manager):
+    def get_by_search(self, query):
+        lookup = (
+            Q(title__icontains=query)|
+            Q(content__icontains=query)|
+            Q(author__first_name__icontains=query)|
+            Q(author__last_name__icontains=query)|
+            Q(category__name__icontains=query)|
+            Q(category__slug__icontains=query)|
+            Q(tags__name__icontains=query)|
+            Q(tags__slug__icontains=query)
+        )
+        return self.get_queryset().filter(lookup, active=True).distinct()
+
 
 
 class Article(models.Model):
@@ -40,8 +57,10 @@ class Article(models.Model):
     tags = models.ManyToManyField(Tag, verbose_name=_("تگ ها"))
     date_created = models.DateTimeField(verbose_name=_("تاریخ ایجاد"), auto_now=False, auto_now_add=False)
     view_visit = models.IntegerField(verbose_name=_("تعداد بازدید"), default=0, editable=False)
+    comment = models.BooleanField(verbose_name=_("نظرات | فعال / غیرفعال"), default=True)
     active = models.BooleanField(verbose_name=_("فعال"), default=False)
     
+    objects = ArticleManager()
     
     class Meta:
         verbose_name = _("مقاله")

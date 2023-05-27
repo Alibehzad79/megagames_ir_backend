@@ -31,6 +31,14 @@ class CommentAdmin(admin.ModelAdmin):
 class SeoAdmin(admin.ModelAdmin):
     list_display = ('__str__', 'creator_name', 'date_created', 'date_updated')
     search_fields = ('artice__title', 'creator__username')    
-    
-admin.site.register(Category)
-admin.site.register(Tag)  
+
+
+@admin.register(Category)
+class CategoryAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'visit_count')
+
+
+
+@admin.register(Tag)
+class TagAdmin(admin.ModelAdmin):
+    list_display = ('name', 'slug', 'visit_count')
