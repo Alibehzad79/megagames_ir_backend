@@ -19,13 +19,15 @@ from django.urls import path
 from config import settings
 from django.conf.urls.static import static
 
-from blog_app.views import ArticleListView, article_detail, article_detail_2
+from blog_app.views import ArticleListView, article_detail, article_detail_2, get_article_by_category, get_article_by_tag
 from search_app.views import search
 urlpatterns = [
     path('', ArticleListView.as_view()),
     path('articles/<pk>/<title>/', article_detail, name='article_detail'),
     path('articles/<id_post>/', article_detail_2, name='article_detail_2'),
     path('search/', search, name='search'),
+    path('category/<slug:category_slug>/', get_article_by_category, name='category'),
+    path('tag/<slug:tag_slug>/', get_article_by_tag, name='tag'),
     path('admin/', admin.site.urls),
 ]
 

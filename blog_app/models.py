@@ -19,6 +19,10 @@ class Tag(models.Model):
     def __str__(self):
         return self.name
     
+    def get_absolute_url(self):
+        return reverse("tag", kwargs={"tag_slug": self.slug})
+    
+    
 class Category(models.Model):
     name = models.CharField(verbose_name=_("نام دسته بندی"), max_length=50, unique=True)
     slug = models.SlugField(verbose_name=_("اسلاگ"), unique=True)
@@ -30,6 +34,10 @@ class Category(models.Model):
 
     def __str__(self):
         return self.name 
+    
+    def get_absolute_url(self):
+        return reverse("category", kwargs={"category_slug": self.slug})
+    
 class ArticleManager(models.Manager):
     def get_by_search(self, query):
         lookup = (

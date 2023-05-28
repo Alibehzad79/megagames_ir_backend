@@ -1,4 +1,6 @@
 {{query}}
+{% if category %}{{category.name}}{% endif %}
+{% if tag %}{{tag.name}}{% endif %}
 {% if articles %}
     {% for article in articles %}
         {{article.title}}

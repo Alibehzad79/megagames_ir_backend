@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'settings_app.apps.SettingsAppConfig',
     'tools_app.apps.ToolsAppConfig',
     'search_app.apps.SearchAppConfig',
+    'ads_app.apps.AdsAppConfig',
     
     # packeges
     'ckeditor',
