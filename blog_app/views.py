@@ -3,6 +3,7 @@ from django.views.generic import ListView
 from blog_app.models import Article, Comment, Category, Tag
 from blog_app.forms import CommentForm
 from datetime import datetime
+from ads_app.models import ArticleDetailPageAds
 # Create your views here.
 
 class ArticleListView(ListView):
@@ -30,12 +31,19 @@ def article_detail(request, *args, **kwargs):
     else:
         form = CommentForm()
     related_posts = Article.objects.filter(category=article.category).distinct().all()[:4]
+    ads = ArticleDetailPageAds.objects.filter(active=True, article=article).all()
+    today_ads = None
+    for ad in ads:
+        if ad.date_start <= datetime.today().date() <= ad.date_end:
+            today_ads = ad
+
     article.view_visit += 1
     article.save()
     context = {
         'article': article,
         'form': form,
         'related_posts': related_posts,
+        'today_ads': today_ads,
     }
     
     return render(request, template_name, context)
@@ -74,4 +82,6 @@ def get_article_by_tag(request, *args, **kwargs):
     return render(request, template_name, context)
 
 
-# TODO create ads system for all pages
+
+
+# TODO ads system for tags, categories, search_app, home_page

@@ -18,3 +18,9 @@ tags: {% for tag in article.tags.all %}<a href="{{tag.get_absolute_url}}">{{tag}
 {% for post in related_posts %}
     <a href="{{post.get_absolute_url}}">{{post.title}}</a>
 {% endfor %}
+
+<hr />
+
+{% if today_ads %}
+    <img src="{{today_ads.image.url}}" />
+{% endif %}
