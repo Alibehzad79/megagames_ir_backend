@@ -6,3 +6,7 @@
         {{article.title}}
     {% endfor %}
 {% endif %}
+
+{% if today_ads %}
+    <img src="{{today_ads.image.url}}">
+{% endif %}

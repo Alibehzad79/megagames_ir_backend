@@ -1,6 +1,8 @@
 from django.shortcuts import render
 from search_app.models import SaerchResault
 from blog_app.models import Article
+from ads_app.models import SearchPageAds
+from datetime import datetime
 # Create your views here.
 
 def search(request):
@@ -16,10 +18,15 @@ def search(request):
             q.save()
     else:
         articles = Article.objects.filter(active=True).all()
-    
+    ads = SearchPageAds.objects.filter(active=True).all()
+    today_ads = None
+    for ad in ads:
+        if ad.date_start <= datetime.today().date() <= ad.date_end:
+            today_ads = ad
     context = {
         'query': query,
-        'articles': articles
+        'articles': articles,
+        'today_ads': today_ads,
     }
     
     return render(request, template_name, context)

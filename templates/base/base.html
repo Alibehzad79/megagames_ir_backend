@@ -7,3 +7,7 @@
 <a href="{{article.get_absolute_url}}">{{article.title}}</a>
 
 {% endfor %}
+
+{% if today_ads %}
+    <img src="{{today_ads.image.url}}">
+{% endif %}
