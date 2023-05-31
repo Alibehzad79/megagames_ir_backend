@@ -11,7 +11,8 @@ class Tag(models.Model):
     name = models.CharField(verbose_name=_("نام تگ"), max_length=50, unique=True)
     slug = models.SlugField(verbose_name=_("اسلاگ"), unique=True)
     visit_count = models.IntegerField(verbose_name=_("تعداد بازدید"), default=0)
-
+    description = models.CharField(verbose_name=_("Description"), max_length=165, help_text=_("max length: 165 character"))
+    keywords = models.TextField(verbose_name=_("Keywords"), help_text=_("با کاما (,) از هم جدا کنید"))
     class Meta:
         verbose_name = _("تگ")
         verbose_name_plural = _("تگ ها")
@@ -27,7 +28,8 @@ class Category(models.Model):
     name = models.CharField(verbose_name=_("نام دسته بندی"), max_length=50, unique=True)
     slug = models.SlugField(verbose_name=_("اسلاگ"), unique=True)
     visit_count = models.IntegerField(verbose_name=_("تعداد بازدید"), default=0)
-
+    description = models.CharField(verbose_name=_("Description"), max_length=165, help_text=_("max length: 165 character"))
+    keywords = models.TextField(verbose_name=_("Keywords"), help_text=_("با کاما (,) از هم جدا کنید"))
     class Meta:
         verbose_name = _("دسته بندی")
         verbose_name_plural = _("دسته بندی ها")
@@ -110,7 +112,7 @@ class Downloadbox(models.Model):
         return self.title
  
 class Comment(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name="article_commnets")
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name="article_comments")
     name = models.CharField(verbose_name=_("نام و نام خانوادگی"), max_length=50)
     email = models.EmailField(verbose_name=_("ایمیل"), max_length=254)
     text = models.TextField(verbose_name=_("متن نظر"))
@@ -121,6 +123,7 @@ class Comment(models.Model):
     class Meta:
         verbose_name = _("نظر")
         verbose_name_plural = _("نظرات")
+        ordering = ['-date_send']
 
     def __str__(self):
         return self.name
@@ -130,7 +133,6 @@ class Seo(models.Model):
     creator = models.ForeignKey(get_user_model(), verbose_name=_("SEO نویسنده"), on_delete=models.DO_NOTHING)
     description = models.CharField(verbose_name=_("Description"), max_length=165, help_text=_("max length: 165 character"))
     keywords = models.TextField(verbose_name=_("Keywords"), help_text=_("با کاما (,) از هم جدا کنید"))
-    redirect = models.URLField(verbose_name=_("Redirect"), max_length=200, blank=True, null=True, default=None, help_text=_("میتواند خالی بماند"))
     refresh = models.CharField(verbose_name=_("Refresh"), max_length=100, blank=True, null=True, default=None, help_text=_("e.g: 3;url=https://www.mozilla.org --> میتواند خالی بماند"))
     date_created = models.DateTimeField(verbose_name=_("تاریخ ایجاد"), auto_now=False, auto_now_add=False)
     date_updated = models.DateTimeField(verbose_name=_("تاریخ آپدیت"), auto_now=True)

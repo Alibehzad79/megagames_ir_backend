@@ -33,12 +33,20 @@
                 </li>
 
             </ul>
-            <form class="d-flex" action="{% url 'search' %}">
+            <form class="d-flex d-none d-md-flex" action="{% url 'search' %}">
                 <input class="rounded-5 bg-black ps-3 px-1 rounded-end-0 search text-warning" type="text"
                     placeholder="جستوجو کنید ..." name="q" value="{{request.GET.q}}">
                 <button class="btn btn-success bg-black border-0 rounded-pill border-start-0 rounded-start-0"
                     type="submit"><i class="ri-search-line"></i></button>
             </form>
         </div>
+    </div>
+    <div class="mt-2 w-100 d-md-none">
+        <form class="d-flex" action="{% url 'search' %}">
+            <input class="rounded-5 bg-black ps-3 px-1 rounded-end-0 search text-warning w-100" type="text"
+                placeholder="جستوجو کنید ..." name="q" value="{{request.GET.q}}">
+            <button class="btn btn-success bg-black border-0 rounded-pill border-start-0 rounded-start-0"
+                type="submit"><i class="ri-search-line"></i></button>
+        </form>
     </div>
 </nav>

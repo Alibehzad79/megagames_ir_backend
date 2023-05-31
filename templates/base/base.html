@@ -6,8 +6,13 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MegaGame</title>
-    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
+    {% block seo %}
+        <meta name="description" content="{{setting.site_description}}">
+        <meta name="keywords" content="{{setting.site_keywords}}">
+        <meta name="author" content="{{setting.site_creator}}">
+    {% endblock seo %}
+    <title>{% block title %}{{setting.site_title}}{% endblock title %}</title>
+    {% render_partial 'blog_app.views.fovicon' %}
     {% include 'base/header_referenced.html' %}
 </head>
 
@@ -63,7 +68,7 @@
                     </div>
                 {% endfor %}
                 {% else %}
-                <p class="alert alert-warning text-center fw-bold"></p>
+                <p class="alert alert-warning text-center fw-bold">مقاله ای یافت نشد.</p>
                 {% endif %}
             </div>
             <div class="tbs bg-dark rounded">

@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView
-from blog_app.models import Article, Comment, Category, Tag
+from blog_app.models import Article, Comment, Category, Tag, Seo
 from blog_app.forms import CommentForm
 from datetime import datetime
 from ads_app.models import ArticleDetailPageAds, CategoryPageAds, TagPageAds, HomePageAds
 from tools_app.models import Tool
+from settings_app.models import Setting
 # Create your views here.
 
 class ArticleListView(ListView):
@@ -22,8 +23,10 @@ class ArticleListView(ListView):
         today_ads = None
         for ad in ads:
             if ad.date_start <= datetime.today().date() <= ad.date_end:
-                today_ads = ad        
+                today_ads = ad       
+        setting = Setting.objects.last()     
         context["today_ads"] = today_ads
+        context["setting"] = setting
         return context
     
 
@@ -39,11 +42,14 @@ def article_detail(request, *args, **kwargs):
             text = form.cleaned_data.get('text')
             new_comment = Comment.objects.create(article=article, name=name, email=email, text=text, date_send=datetime.now(), status=False)
             if new_comment is not None:
-                return redirect('article_detail', article.id, article.title)
+                return redirect('article_detail', article.id, article.slug)
     else:
         form = CommentForm()
     related_posts = Article.objects.filter(category=article.category).distinct().all()[:4]
+    setting = Setting.objects.last()
+    seo = Seo.objects.filter(article=article).last()
     ads = ArticleDetailPageAds.objects.filter(active=True, article=article).all()
+    comments = Comment.objects.filter(status=True, article=article).all()
     today_ads = None
     for ad in ads:
         if ad.date_start <= datetime.today().date() <= ad.date_end:
@@ -56,6 +62,9 @@ def article_detail(request, *args, **kwargs):
         'form': form,
         'related_posts': related_posts,
         'today_ads': today_ads,
+        'setting': setting,
+        'comments': comments,
+        'seo': seo,
     }
     
     return render(request, template_name, context)
@@ -64,7 +73,7 @@ def article_detail(request, *args, **kwargs):
 def article_detail_2(request, *args, **kwargs):
     pk = kwargs['id_post']
     article = get_object_or_404(Article.objects.filter(id_post=pk))
-    return redirect('article_detail', article.id, article.title)
+    return redirect('article_detail', article.id, article.slug)
 
 def get_article_by_category(request, *args, **kwargs):
     template_name = "base/search_result.html"
@@ -125,3 +134,16 @@ def right_side(request):
         'articles': articles,
     }
     return render(request, template_name, context)
+
+
+def fovicon(request):
+    template_name = 'base/fovicon.html'
+    context = {
+        'setting': Setting.objects.last(),
+    }
+    return render(request, template_name, context)
+
+
+
+# TODO category , tag and search result page | seo this pages
+# TODO ads and contact pages

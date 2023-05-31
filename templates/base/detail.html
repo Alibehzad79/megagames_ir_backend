@@ -1,26 +1,178 @@
-{{article.title}} <br />
-category: <a href="{{article.category.get_absolute_url}}">{{article.category.name}} </a><br />
-tags: {% for tag in article.tags.all %}<a href="{{tag.get_absolute_url}}">{{tag}} {% if forloop.last %}{% else %},{% endif %}</a>{% endfor %} <br />
-<form action="{% url 'article_detail' article.id article.slug  %}" method="post">
-    {% csrf_token %}
-    {{form.as_p}}
-    <button type="submit">Send</button>
-</form>
-{% for img in article.galleries.all %}
-    <img src="{{img.image.url}}" alt="{{img.title}}">
-{% endfor %}
-{% for download_box in article.download_boxs.all %}
-    <a href="{{download_box.url}}">{{download_box.title}}</a>
-{% endfor %}
-
-<hr>
-
-{% for post in related_posts %}
-    <a href="{{post.get_absolute_url}}">{{post.title}}</a>
-{% endfor %}
-
-<hr />
-
-{% if today_ads %}
-    <img src="{{today_ads.image.url}}" />
-{% endif %}
+{% extends 'base/base.html' %}
+{% block seo %}
+    <meta name="description" content="{{seo.description}}">
+    <meta name="keywords" content="{{seo.keywords}}">
+    {% if article.author.get_full_name %}<meta name="author" content="{{article.author.get_full_name}}">{% endif %}
+    {% if seo.refresh %}
+    <meta http-equiv="refresh" content="{{seo.refresh}}">
+    {% endif %}
+{% endblock seo %}
+{% block title %}{{article.title}}{% endblock title %}
+{% block content %}
+<section class="center-sidebar col col-md-7 d-flex flex-column gap-3">
+    {% if today_ads %}
+    <div class="tbs bg-dark rounded">
+        <a href="{{today_ads.url}}">
+            <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
+        </a>
+    </div>
+    {% endif %}
+    <div class="post p-3 bg-dark rounded d-flex flex-column gap-3">
+        <a href="#" class="text-decoration-none text-white">
+            <strong class="text-wrap fs-5 fw-bold mb-4">{{article.title}}</strong>
+        </a>
+        <div class="detail">
+            <ul class="list-unstyled d-flex flex-column flex-md-row bg-black justify-content-around p-2 rounded">
+                <li class="d-flex gap-1 flex-wrap"><i class="ri-eye-line"></i><span>بازدید: {{article.view_visit}}</span>
+                </li>
+                <li class="d-flex gap-1 flex-wrap"><i class="ri-message-line"></i><span>نظر: {{article.article_comments.count}}</span></li>
+                {% if article.author.get_full_name %}<li class="d-flex gap-1 flex-wrap"><i class="ri-user-line"></i><span>نویسنده: {{article.author.get_full_name}}</span></li>{% endif %}
+                <li class="d-flex gap-1 flex-wrap"><i class="ri-time-line"></i><span>تاریخ انتشار:
+                        {{article.date_created|date:"Y/m/d"}}</span></li>
+            </ul>
+            <div class="post-image">
+                <a href="{{article.get_absolute_url}}">
+                    <img src="{{article.image.url}}" alt="{{article.title}}" class="post-img img-fluid w-100">
+                </a>
+            </div>
+            <div class="main-title text-warning fw-bold text-center my-3 mb-5">{{article.title}}</div>
+            <div class="content text-start">
+                {{article.content|safe}}
+            </div>
+            {% if article.galleries %}
+            <div class="gallery border border-warning d-flex flex-column rounded">
+                <span class="p-3 bg-warning w-100 text-dark fw-bold"><i class="ri-image-line fs-5 me-2"></i>گالری تصویر</span>
+                <div class="gallery-items p-3 d-flex flex-column flex-md-row gap-1 flex-md-wrap flex-nowrap justify-content-center">
+                    {% for img in article.galleries.all %}
+                    <a href="{{img.image.url}}" target="_blank" class="col-md-4 col">
+                        <img src="{{img.image.url}}" alt="image" class="img-fluid">
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            {% endif %}
+            {% if article.download_boxs.all %}
+            <div class="gallery border border-success d-flex flex-column rounded mt-4 gap-3">
+                <span class="p-3 bg-success text-white fw-bold"><i class="ri-download-2-line fs-5 me-2"></i>باکس
+                    دانلود</span>
+                <h6 class="ms-3 fw-bold">دانلود فایل فلان:</h6>
+                <div class="gallery-items p-3 d-flex flex-column gap-3">
+                    {% for down in article.download_boxs.all %}
+                    <a href="{{down.url}}" class="p-1 btn nav-item bg-white" target="_blank">دانلود با لینک مستقیم -
+                        {{down.title}}</a>
+                    {% endfor %}
+                </div>
+                <span class="p-3 bg-success text-white fw-bold"><i class="ri-lock-password-line fs-5 me-2"></i>پسورد فایل: megagame.ir</span>
+            </div>
+            {% endif %}
+            {% if article.download_help %}
+            <div class="gallery border border-primary d-flex flex-column rounded mt-4 gap-3">
+                <span class="p-3 bg-primary text-white fw-bold"><i class="ri-settings-2-line fs-5 me-2"></i>راهنمای
+                    دانلود</span>
+                <div class="gallery-items p-3 d-flex flex-column gap-3">
+                    {{article.download_help|safe}}
+                </div>
+            </div>
+            {% endif %}
+            <hr class="text-black">
+            <div class="post-footer d-flex flex-wrap justify-content-between align-items-center">
+                {% if article.category %}
+                <div class="post-tags">
+                    <i class="ri-folder-line"></i>
+                    <a href="{% url 'category' article.category.slug %}" class="text-white text-decoration-none">{{article.category.name}}</a>
+                </div>
+                {% endif %}
+                {% if article.tags.all %}
+                <div class="post-tags">
+                    <i class="ri-hashtag"></i>
+                    {% for tag in article.tags.all %}
+                    <a href="{% url 'tag' tag.slug %}" class="text-white text-decoration-none text-wrap">{{tag.name}}</a>{% if forloop.last %}{% else %}،{% endif %}
+                    {% endfor %}
+                </div>
+                {% endif %}
+                <div class="share bg-dark p-3 rounded">
+                    <span><i class="ri-link mx-1"></i>لینک کوتاه</span>
+                    <input type="url" value="{{setting.site_url}}{{article.short_url}}" readonly="" class="bg-black text-white rounded-5 border-0 p-1 text-center w-100" onclick="this.setSelectionRange(0, this.value.length)">
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="share bg-dark p-3 rounded d-flex flex-wrap justify-content-between align-items-center">
+        <div class="title">
+            <span class="fw-bold">اشتراک گذاری</span>
+        </div>
+        <div class="social-network d-flex flex-wrap gap-3 justify-content-center">
+            <div class="elfsight-app-77e96ab0-03d8-40d9-93cd-596e45e314a2"></div>
+        </div>
+    </div>
+    {% if related_posts %}
+    <div class="related-posts d-flex flex-column bg-dark p-3 rounded gap-3">
+        <div class="title fw-bold"><i class="ri-repeat-2-line me-1"></i>مطالب مرتبط
+            <hr class="text-black">
+        </div>
+        {% for post in related_posts %}
+        <div class="related-post bg-black border-start border-0 p-2 border-dark-subtle">
+            <a href="{{post.get_absolute_url}}" class="text-decoration-none nav-link text-wrap w-100">{{post.title}}</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    <div class="comments bg-dark p-3 rounded">
+        <div class="title fw-bold">
+            <i class="ri-message-2-line mx-1"></i>
+            نظرات ({{comments.count}})
+            <hr class="text-black">
+        </div>
+        <div class="warnings d-flex flex-column">
+            <span><i class="ri-check-line text-success fs-5 me-1"></i>نظرات بعد از خواندن ادمین تایید خواهند
+                شد</span>
+            <span><i class="ri-check-line text-success fs-5 me-1"></i>بی ادبی ممنوع</span>
+            <span><i class="ri-check-line text-success fs-5 me-1"></i>ایمیل شما نمایش داده نخواهد شد</span>
+        </div>
+        <form action="{% url 'article_detail' article.id article.slug  %}" method="post" class="mt-5 d-flex flex-column gap-2">
+            {% csrf_token %}
+            <div class="col d-flex gap-2 flex-column flex-md-row">
+                <div class="col-12 col-md-6 d-flex flex-column gap-2">
+                    <label for="{{form.name.id}}">{{form.name.label}}</label>
+                    {{form.name}}
+                </div>
+                <div class="col-12 col-md-6 d-flex flex-column gap-2">
+                    <label for="{{form.email.id}}">{{form.email.label}}</label>
+                    {{form.email}}
+                </div>
+            </div>
+            <div class="col d-flex flex-column gap-2">
+                <label for="{{form.text.id}}">{{form.text.label}}</label>
+                {{form.text}}
+            </div>
+            <button class="btn btn-outline-warning p-3 w-25" type="submit">ارسال</button>
+        </form>
+        {% if comments %}
+        <div class="user-comments mt-5 d-flex flex-column gap-4">
+            {% for comment in comments %}
+            <div class="comment bg-black p-3 rounded d-flex flex-column gap-4">
+                <div class="user-name d-flex flex-column flex-md-row gap-3">
+                    <span>{{comment.name}}</span>
+                    <span>{{comment.date_send|date:'Y/m/d'}}</span>
+                </div>
+                <div class="user-comment">
+                    <p>
+                        {{comment.text}}
+                    </p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="alert alert-warning text-center mt-3">نظری یافت نشد.</p>
+        {% endif %}
+    </div>
+    {% if today_ads %}
+    <div class="tbs bg-dark rounded">
+        <a href="{{today_ads.url}}">
+            <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
+        </a>
+    </div>
+    {% endif %}
+</section>
+{% endblock content %}
