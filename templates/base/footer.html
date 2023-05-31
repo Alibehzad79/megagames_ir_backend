@@ -1,0 +1,56 @@
+<footer class="bg-dark mt-5 p-3 text-center" id="footer">
+    <div class="container mt-5 bg-dark mb-5 d-flex col flex-column flex-md-row gap-5 text-center justify-content-around">
+        <div class="footer-right col-md-4 col-12 d-flex flex-column gap-5 justify-content-center">
+            {% if setting %}
+            <div class="footer-head d-flex justify-content-center">
+                <h4 class="d-flex gap-2 fw-bold align-items-center fs-4">{{setting.site_title}}</h4>
+            </div>
+            {% endif %}
+            {% if setting %}
+            <a href="/">
+                <img src="{{setting.site_logo.url}}" alt="{{setting.site_title}}" class="img-fluid footer-logo rounded">
+            </a>
+            {% endif %}
+            <div class="footer-body d-flex flex-column gap-4">
+                <div class="desciption">
+                    <p>
+                        {{setting.site_description|safe}}
+                    </p>
+                </div>
+                <div class="shortlink d-flex gap-3 justify-content-center">
+                    <a href="{% url 'ads' %}" class="btn btn-outline-warning">تبلیغات</a>
+                    <a href="{% url 'contact' %}" class="btn btn-outline-warning">تماس با ما</a>
+                </div>
+                {% if setting %}
+                {% if setting.socials %}
+                <div class="social-network d-flex flex-wrap gap-3 justify-content-center">
+                    {% for social in setting.socials.all %}
+                    <a href="{{social.url}}" class="text-white text-decoration-none nav-link"><i
+                        class="ri-{{social.name}}-line fs-1"></i></a>
+                    {% endfor %}
+                </div>
+                {% endif %}
+                {% endif %}
+            </div>
+        </div>
+        <div class="footer-center col-md-4 col-12 d-flex flex-column gap-5">
+            <div class="footer-head d-flex justify-content-between">
+                <h4 class="d-flex gap-2 fw-bold justify-content-center align-items-center"><i
+                        class="ri-book-line fs-3"></i>آخرین مقاله ها</h4>
+                <span class="fw-bold">Last Post</span>
+            </div>
+            {% if articles %}
+            <div class="footer-body">
+                <ul class="list-unstyled d-flex flex-column gap-2">
+                    {% for article in articles %}
+                    <li class="nav-item p-2 bg-black"><a href="{{article.get_absolute_url}}" class="nav-link">{{article.title}}</a></li>
+                    {% endfor %}
+                </ul>
+            </div>
+            {% endif %}
+        </div>
+    </div>
+    {% if setting %}
+    <div class="copy-right text-center">{{setting.site_copyright|safe}} | {{date.year}}</div>
+    {% endif %}
+</footer>

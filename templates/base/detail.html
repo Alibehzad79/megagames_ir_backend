@@ -1,7 +1,7 @@
 {{article.title}} <br />
 category: <a href="{{article.category.get_absolute_url}}">{{article.category.name}} </a><br />
 tags: {% for tag in article.tags.all %}<a href="{{tag.get_absolute_url}}">{{tag}} {% if forloop.last %}{% else %},{% endif %}</a>{% endfor %} <br />
-<form action="{% url 'article_detail' article.id article.title  %}" method="post">
+<form action="{% url 'article_detail' article.id article.slug  %}" method="post">
     {% csrf_token %}
     {{form.as_p}}
     <button type="submit">Send</button>

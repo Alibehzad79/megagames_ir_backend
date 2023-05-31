@@ -1,0 +1,44 @@
+<nav class="navbar navbar-expand-sm bg-dark mb-5 py-4 sticky-top">
+    <div class="container">
+        {% if setting %}
+        <a class="navbar-brand" href="/"><img src="{{setting.site_logo.url}}" alt="{{setting.site_title}}"
+            class="img-fluid logo rounded"></a>
+        {% endif %}
+        <button class="navbar-toggler d-lg-none bg-white" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapsibleNavId" aria-controls="collapsibleNavId" aria-expanded="false"
+            aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="collapsibleNavId">
+            <ul class="navbar-nav me-auto mt-2 mt-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/" aria-current="page">خانه <span
+                            class="visually-hidden">(current)</span></a>
+                </li>
+                {% if categories %}
+                <li class="nav-item dropdown">
+                    <a class="nav-link" href="#" id="dropdownId">دسته بندی <i class="ri-arrow-down-s-line"></i></a>
+                    <div class="dropdown-menu bg-dark">
+                        {% for category in categories %}
+                        <a class="dropdown-item" href="{% url 'category' category.slug %}">{{category.name}}</a>
+                        {% endfor %}
+                    </div>
+                </li>
+                {% endif %}
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'contact' %}">تماس با ما</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'ads' %}">تبلیغات</a>
+                </li>
+
+            </ul>
+            <form class="d-flex" action="{% url 'search' %}">
+                <input class="rounded-5 bg-black ps-3 px-1 rounded-end-0 search text-warning" type="text"
+                    placeholder="جستوجو کنید ..." name="q" value="{{request.GET.q}}">
+                <button class="btn btn-success bg-black border-0 rounded-pill border-start-0 rounded-start-0"
+                    type="submit"><i class="ri-search-line"></i></button>
+            </form>
+        </div>
+    </div>
+</nav>

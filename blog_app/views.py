@@ -4,6 +4,7 @@ from blog_app.models import Article, Comment, Category, Tag
 from blog_app.forms import CommentForm
 from datetime import datetime
 from ads_app.models import ArticleDetailPageAds, CategoryPageAds, TagPageAds, HomePageAds
+from tools_app.models import Tool
 # Create your views here.
 
 class ArticleListView(ListView):
@@ -101,5 +102,26 @@ def get_article_by_tag(request, *args, **kwargs):
         'articles': article,
         'tag': tag,
         'today_ads': today_ads,
+    }
+    return render(request, template_name, context)
+
+
+
+def left_side(request):
+    template_name = "base/left_sidebar.html"
+    tools = Tool.objects.all()
+    articles = Article.objects.filter(active=True).all()[:13]
+    context = {
+        'tools': tools,
+        'articles': articles,
+    }
+    return render(request, template_name, context)
+
+
+def right_side(request):
+    template_name = "base/right_sidebar.html"
+    articles = Article.objects.filter(active=True).order_by('-view_visit').all()[:13]
+    context = {
+        'articles': articles,
     }
     return render(request, template_name, context)

@@ -58,6 +58,7 @@ class Article(models.Model):
     author = models.ForeignKey(get_user_model(), verbose_name=_("نویسنده"), on_delete=models.DO_NOTHING)
     id_post = models.CharField(verbose_name=_("آیدی پست"), default=get_random_string(7), max_length=7, unique=True, help_text="دست نزن مَردَک", blank=True, null=True)
     title = models.CharField(verbose_name=_("عنوان"), max_length=50)
+    slug = models.SlugField(verbose_name=_("اسلاگ"), unique=True)
     content = RichTextField(verbose_name="محتوا")
     image = models.ImageField(verbose_name=_("تصویر"), upload_to=f"images/posts/")
     download_help = RichTextField(verbose_name="راهنمای دانلود", blank=True, null=True)
@@ -79,7 +80,7 @@ class Article(models.Model):
         return self.title
 
     def get_absolute_url(self):
-        return reverse("article_detail", kwargs={"pk": self.pk, 'title': self.title})
+        return reverse("article_detail", kwargs={"pk": self.pk, 'slug': self.slug})
     def short_url(self):
         return reverse("article_detail_2", kwargs={"id_post": self.id_post})
 
