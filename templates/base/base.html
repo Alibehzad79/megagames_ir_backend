@@ -16,6 +16,7 @@
     <main
         class="d-flex flex-column flex-md-row col-12 container justify-content-around rounded position-relative gap-3">
         {% render_partial 'blog_app.views.right_side' %}
+        {% block content %}
         <section class="center-sidebar col col-md-7 d-flex flex-column gap-3">
             <div class="tbs bg-dark rounded">
                 <a href="{{today_ads.url}}">
@@ -93,6 +94,7 @@
                 </nav>
             </div>
         </section>
+        {% endblock content %}
 
         {% render_partial 'blog_app.views.left_side' %}
     </main>
