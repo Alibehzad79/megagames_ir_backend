@@ -1,12 +1,72 @@
+{% extends 'base/base.html' %}
+{% block seo %}
+    <meta name="description" content="{{perpes.description}}{% if query %}{{query}}{% endif %}">
+    <meta name="keywords" content="{{perpes.keywords}}{% if query %}{{query}}{% endif %}">
+{% endblock seo %}
+{% block title %}{{perpes.name}}{% if query %}
 {{query}}
-{% if category %}{{category.name}}{% endif %}
-{% if tag %}{{tag.name}}{% endif %}
-{% if articles %}
-    {% for article in articles %}
-        {{article.title}}
-    {% endfor %}
-{% endif %}
-
-{% if today_ads %}
-    <img src="{{today_ads.image.url}}">
-{% endif %}
+{% endif %}{% endblock title %}
+{% block content %}
+<section class="center-sidebar col col-md-7 d-flex flex-column gap-3">
+    {% if today_ads %}
+    <div class="tbs bg-dark rounded">
+        <a href="{{today_ads.url}}">
+            <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
+        </a>
+    </div>
+    {% else %}
+    <p class="tbs bg-dark rounded text-center d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
+    {% endif %}
+    <div class="posts d-flex flex-column gap-3 p-3 rounded">
+        <div>
+            <span class="me-1">👈</span><strong class="text-warning">{{perpes.name}} {% if query %}
+                {{query}}
+            {% endif %}</strong>
+        </div>
+        {% if articles %}
+        {% for article in articles %}
+        <div class="post p-3 bg-dark rounded d-flex flex-column flex-md-row gap-3 align-items-start">
+            <div class="post-image col-md-4 col">
+                <a href="{{article.get_absolute_url}}">
+                    <img src="{{article.image.url}}" alt="{{article.title}}" class="search-img img-fluid w-100 rounded">
+                </a>
+            </div>
+            <div class="detail gap-3 col col-md-8 d-flex flex-column p-3 justify-content-between h-100">
+                <a href="{{article.get_absolute_url}}" class="text-decoration-none text-white">
+                    <strong class="text-wrap fs-5 fw-bold mb-4">{{article.title}}</strong>
+                </a>
+                <div class="text-white-50">
+                    <span>تاریخ انتشار:</span>
+                    <span>{{article.date_created|date:"Y/m/d"}}</span>
+                </div>
+                <div class="content text-start">
+                    {{article.content|safe|truncatechars:150}}
+                </div>
+                <hr class="text-black">
+                <div class="post-footer d-flex justify-content-between">
+                    <div class="post-tags">
+                        <i class="ri-folder-line"></i>
+                        <a href="{% url 'category' article.category.slug %}" class="text-white text-decoration-none">{{article.category.name}}</a>
+                    </div>
+                    <div class="more">
+                        <a href="{{article.get_absolute_url}}" class="more-btn btn btn-outline-warning">ادامه مطلب</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+        {% else %}
+        <p class="alert alert-warning text-center">چیزی پیدا نکردم 🥲</p>
+        {% endif %}
+    </div>
+    {% if today_ads %}
+    <div class="tbs bg-dark rounded">
+        <a href="{{today_ads.url}}">
+            <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
+        </a>
+    </div>
+    {% else %}
+    <p class="tbs bg-dark rounded text-center d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
+    {% endif %}
+</section>
+{% endblock content %}

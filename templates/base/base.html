@@ -23,11 +23,15 @@
         {% render_partial 'blog_app.views.right_side' %}
         {% block content %}
         <section class="center-sidebar col col-md-7 d-flex flex-column gap-3">
+            {% if today_ads %}
             <div class="tbs bg-dark rounded">
                 <a href="{{today_ads.url}}">
                     <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
                 </a>
             </div>
+            {% else %}
+                <p class="tbs bg-dark rounded d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
+            {% endif %}
             <div class="posts d-flex flex-column gap-3 p-3 rounded">
                 {% if articles %}
                 {% for article in page_obj %}
@@ -71,11 +75,15 @@
                 <p class="alert alert-warning text-center fw-bold">مقاله ای یافت نشد.</p>
                 {% endif %}
             </div>
+            {% if today_ads %}
             <div class="tbs bg-dark rounded">
                 <a href="{{today_ads.url}}">
                     <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
                 </a>
             </div>
+            {% else %}
+                <p class="tbs bg-dark rounded d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
+            {% endif %}
             <div class="d-flex justify-content-center bg-dark align-items-center rounded">
                 <nav class="mt-4">
                     <ul class="pagination d-flex gap-3">

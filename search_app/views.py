@@ -8,6 +8,7 @@ from datetime import datetime
 def search(request):
     template_name = 'base/search_result.html'
     query = request.GET.get('q')
+    print(query)
     if query is not None:
         articles = Article.objects.get_by_search(query=query)
         if not SaerchResault.objects.filter(query_name=query).exists():

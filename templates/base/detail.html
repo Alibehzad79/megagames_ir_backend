@@ -16,6 +16,8 @@
             <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
         </a>
     </div>
+    {% else %}
+    <p class="tbs bg-dark rounded text-center d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
     {% endif %}
     <div class="post p-3 bg-dark rounded d-flex flex-column gap-3">
         <a href="#" class="text-decoration-none text-white">
@@ -173,6 +175,8 @@
             <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
         </a>
     </div>
+    {% else %}
+    <p class="tbs bg-dark rounded text-center d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
     {% endif %}
 </section>
 {% endblock content %}

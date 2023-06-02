@@ -89,7 +89,7 @@ def get_article_by_category(request, *args, **kwargs):
     category.save()
     context = {
         'articles': article,
-        'category': category,
+        'perpes': category,
         'today_ads': today_ads,
     }
     return render(request, template_name, context)
@@ -109,7 +109,7 @@ def get_article_by_tag(request, *args, **kwargs):
     tag.save()
     context = {
         'articles': article,
-        'tag': tag,
+        'perpes': tag,
         'today_ads': today_ads,
     }
     return render(request, template_name, context)
@@ -145,5 +145,4 @@ def fovicon(request):
 
 
 
-# TODO category , tag and search result page | seo this pages
 # TODO ads and contact pages
