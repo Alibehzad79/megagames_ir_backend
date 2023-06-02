@@ -18,10 +18,17 @@ from django.contrib import admin
 from django.urls import path
 from config import settings
 from django.conf.urls.static import static
+from django.contrib.sitemaps.views import sitemap
 
 from blog_app.views import ArticleListView, article_detail, article_detail_2, get_article_by_category, get_article_by_tag
 from search_app.views import search
 from settings_app.views import contact, ads
+from blog_app.sitemap import BlogSitemap
+
+sitemaps = {
+    "blog_app": BlogSitemap,
+}
+
 urlpatterns = [
     path('', ArticleListView.as_view()),
     path('articles/<int:pk>/<slug:slug>/', article_detail, name='article_detail'),
@@ -31,6 +38,12 @@ urlpatterns = [
     path('tag/<slug:tag_slug>/', get_article_by_tag, name='tag'),
     path('contact/', contact, name='contact'),
     path('ads/', ads, name='ads'),
+    path(
+        "sitemap.xml/",
+        sitemap,
+        {"sitemaps": sitemaps},
+        name="django.contrib.sitemaps.views.sitemap",
+    ),
     path('admin/', admin.site.urls),
 ]
 
