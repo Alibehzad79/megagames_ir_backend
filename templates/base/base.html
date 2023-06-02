@@ -44,7 +44,6 @@
                                 class="list-unstyled d-flex flex-column flex-md-row bg-black justify-content-around p-2 rounded">
                                 <li class="d-flex gap-1 flex-wrap"><i class="ri-eye-line"></i><span>بازدید: {{article.view_visit}}</span>
                                 </li>
-                                <li class="d-flex gap-1 flex-wrap"><i class="ri-message-line"></i><span>نظر: {{article.article_commnets.count}}</span></li>
                                 {% if article.author.get_full_name %}<li class="d-flex gap-1 flex-wrap"><i class="ri-user-line"></i><span>نویسنده: {{article.author.get_full_name}}</span></li>{% endif %}
                                 <li class="d-flex gap-1 flex-wrap"><i class="ri-time-line"></i><span>تاریخ انتشار:
                                         {{article.date_created|date:'Y/m/d'}}</span></li>

@@ -49,9 +49,10 @@ class Ads(models.Model):
 class Contact(models.Model):
     name = models.CharField(verbose_name=_("نام و نام خانوادگی"), max_length=50)
     email = models.EmailField(verbose_name=_("ایمیل"), max_length=254)
+    subject = models.CharField(verbose_name=_("عنوان تماس"), max_length=50)
     text = models.TextField(verbose_name=_("متن نظر"))
     date_sent = models.DateTimeField(verbose_name=_("تاریخ ارسال"), auto_now=False, auto_now_add=False)    
-    accept = models.BooleanField(verbose_name=_("تایید کردن"), default=False)
+    accept = models.BooleanField(verbose_name=_("خواندن"), default=False)
     
     class Meta:
         verbose_name = _("تماس")

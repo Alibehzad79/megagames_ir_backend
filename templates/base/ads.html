@@ -1,1 +1,18 @@
-{{ads.text|safe}}
+{% extends 'base/base.html' %}
+{% block seo %}
+<meta name="description" content="تبلیغات | تبلیغات در سایت">
+<meta name="keywords" content="تبلیغات">
+{% endblock seo %}
+{% block title %}تبلیغات{% endblock title %}
+{% block content %}
+<div class="d-flex flex-column gap-4">
+    <div>
+        <h2 class="fs-2">تبلیغات<h2>
+    </div>
+    <div>
+        {{ads.text|safe}}
+    </div>
+
+</div>
+
+{% endblock content %}

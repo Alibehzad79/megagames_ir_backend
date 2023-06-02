@@ -11,8 +11,9 @@ def contact(request):
         if form.is_valid():
             name = form.cleaned_data.get("name")
             email = form.cleaned_data.get("email")
+            subject = form.cleaned_data.get("subject")
             text = form.cleaned_data.get("text")
-            new_contect = Contact.objects.create(name=name, email=email, text=text, date_sent=datetime.now(), accept=False)
+            new_contect = Contact.objects.create(name=name, email=email, subject=subject, text=text, date_sent=datetime.now(), accept=False)
             if new_contect is not None:
                 new_contect.save()
                 return redirect('contact')

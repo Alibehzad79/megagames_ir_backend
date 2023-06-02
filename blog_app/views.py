@@ -142,7 +142,3 @@ def fovicon(request):
         'setting': Setting.objects.last(),
     }
     return render(request, template_name, context)
-
-
-
-# TODO ads and contact pages

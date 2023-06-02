@@ -13,7 +13,7 @@ class SettingAdmin(admin.ModelAdmin):
 
 @admin.register(Contact)
 class ContactAdmin(admin.ModelAdmin):
-    list_display = ('name', 'email', 'date_sent', 'accept')
+    list_display = ('name', 'email', 'subject', 'date_sent', 'accept')
     list_editable = ('accept',)
     list_filter = ('date_sent', 'accept')
     search_fields = ('name', 'email', 'text')

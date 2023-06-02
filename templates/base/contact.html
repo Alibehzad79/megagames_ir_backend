@@ -1,1 +1,32 @@
-{{form.as_p}}
+{% extends 'base/base.html' %}
+{% block seo %}
+<meta name="description" content="تماس با ما | فرم تماس با ما">
+<meta name="keywords" content="تماس با ما">
+{% endblock seo %}
+{% block title %}تماس با ما{% endblock title %}
+{% block content %}
+<div class="container bg-dark p-4 rounded d-flex gap-3">
+    <form action="{% url 'contact' %}" method="post" class="col-12 d-flex flex-column gap-3">
+        {% csrf_token %}
+        <h2 class="fs-3 fw-bold">تماس با ما</h2>
+        <div class="col d-flex flex-column gap-2">
+            <label for="{{form.name.id}}">{{form.name.label}}</label>
+            {{form.name}}
+        </div>
+        <div class="col d-flex flex-column gap-2">
+            <label for="{{form.email.id}}">{{form.email.label}}</label>
+            {{form.email}}
+        </div>
+        <div class="col d-flex flex-column gap-2">
+            <label for="{{form.subject.id}}">{{form.subject.label}}</label>
+            {{form.subject}}
+        </div>
+        <div class="col d-flex flex-column gap-2">
+            <label for="{{form.text.id}}">{{form.text.label}}</label>
+            {{form.text}}
+        </div>
+        <button type="submit" class="btn btn-outline-warning p-3">ارسال</button>
+    </form>
+</div>
+
+{% endblock content %}
