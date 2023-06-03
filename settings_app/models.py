@@ -26,7 +26,6 @@ class SocialNetwork(models.Model):
     setting = models.ForeignKey(Setting, verbose_name=_("تنظیم"), on_delete=models.DO_NOTHING, related_name="socials")
     name = models.CharField(verbose_name=_("نام شبکه اجتماعی"), max_length=50, help_text=_("e.g: instagram"))
     url = models.URLField(verbose_name=_("لینک"), max_length=200, help_text=_("e.g: https://instagram.com/username/"))
-    
 
     class Meta:
         verbose_name = _("شبکه اجتماعی")

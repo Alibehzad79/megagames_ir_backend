@@ -58,7 +58,7 @@ class ArticleManager(models.Manager):
 
 class Article(models.Model):
     author = models.ForeignKey(get_user_model(), verbose_name=_("نویسنده"), on_delete=models.DO_NOTHING)
-    id_post = models.CharField(verbose_name=_("آیدی پست"), default=get_random_string(7), max_length=7, unique=True, help_text="دست نزن مَردَک", blank=True, null=True)
+    id_post = models.CharField(verbose_name=_("آیدی پست"), max_length=7, unique=True, help_text="دست نزن مَردَک", blank=True, null=True)
     title = models.CharField(verbose_name=_("عنوان"), max_length=50)
     slug = models.SlugField(verbose_name=_("اسلاگ"), unique=True)
     content = RichTextField(verbose_name="محتوا")
@@ -85,6 +85,11 @@ class Article(models.Model):
         return reverse("article_detail", kwargs={"pk": self.pk, 'slug': self.slug})
     def short_url(self):
         return reverse("article_detail_2", kwargs={"id_post": self.id_post})
+    def save(self, *args, **kwargs):
+        if self.id_post is None or self.id_post == '':
+            self.id_post = get_random_string(7)
+        super(Article, self).save(*args, **kwargs)
+    
 
 class Gallery(models.Model):
     article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name='galleries')
@@ -116,6 +121,7 @@ class Comment(models.Model):
     name = models.CharField(verbose_name=_("نام و نام خانوادگی"), max_length=50)
     email = models.EmailField(verbose_name=_("ایمیل"), max_length=254)
     text = models.TextField(verbose_name=_("متن نظر"))
+    replay = RichTextField(verbose_name=("جواب"), blank=True, null=True)
     date_send = models.DateTimeField(verbose_name=_("تاریخ ارسال"), auto_now=False, auto_now_add=False)
     status = models.BooleanField(verbose_name=_("تایید شده"))
     
@@ -136,7 +142,6 @@ class Seo(models.Model):
     refresh = models.CharField(verbose_name=_("Refresh"), max_length=100, blank=True, null=True, default=None, help_text=_("e.g: 3;url=https://www.mozilla.org --> میتواند خالی بماند"))
     date_created = models.DateTimeField(verbose_name=_("تاریخ ایجاد"), auto_now=False, auto_now_add=False)
     date_updated = models.DateTimeField(verbose_name=_("تاریخ آپدیت"), auto_now=True)
-    
     
     class Meta:
         verbose_name = _("SEO")
