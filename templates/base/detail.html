@@ -161,6 +161,10 @@
                     <p>
                         {{comment.text}}
                     </p>
+                    {% if comment.replay %}{% endif %}
+                    <p class="bg-black">
+                        {{comment.replay}}
+                    </p>
                 </div>
             </div>
             {% endfor %}
