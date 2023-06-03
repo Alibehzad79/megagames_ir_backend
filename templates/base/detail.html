@@ -163,7 +163,7 @@
                     </p>
                     {% if comment.replay %}{% endif %}
                     <p class="bg-black">
-                        {{comment.replay}}
+                        {{comment.replay|safe}}
                     </p>
                 </div>
             </div>
