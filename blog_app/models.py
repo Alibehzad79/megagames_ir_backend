@@ -57,14 +57,14 @@ class ArticleManager(models.Manager):
 
 
 class Article(models.Model):
-    author = models.ForeignKey(get_user_model(), verbose_name=_("نویسنده"), on_delete=models.DO_NOTHING)
+    author = models.ForeignKey(get_user_model(), verbose_name=_("نویسنده"), on_delete=models.CASCADE)
     id_post = models.CharField(verbose_name=_("آیدی پست"), max_length=7, unique=True, help_text="دست نزن مَردَک", blank=True, null=True)
     title = models.CharField(verbose_name=_("عنوان"), max_length=50)
     slug = models.SlugField(verbose_name=_("اسلاگ"), unique=True)
     content = RichTextField(verbose_name="محتوا")
     image = models.ImageField(verbose_name=_("تصویر"), upload_to=f"images/posts/")
     download_help = RichTextField(verbose_name="راهنمای دانلود", blank=True, null=True)
-    category = models.ForeignKey(Category, verbose_name=_("دسته بندی"), on_delete=models.DO_NOTHING)
+    category = models.ForeignKey(Category, verbose_name=_("دسته بندی"), on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag, verbose_name=_("تگ ها"))
     date_created = models.DateTimeField(verbose_name=_("تاریخ ایجاد"), auto_now=False, auto_now_add=False)
     view_visit = models.IntegerField(verbose_name=_("تعداد بازدید"), default=0, editable=False)
@@ -92,7 +92,7 @@ class Article(models.Model):
     
 
 class Gallery(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name='galleries')
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.CASCADE, related_name='galleries')
     title = models.CharField(verbose_name=_("عنوان"), max_length=50)
     image = models.ImageField(verbose_name=_("تصویر"), upload_to=f"images/galleries/")
 
@@ -104,7 +104,7 @@ class Gallery(models.Model):
         return self.title
 
 class Downloadbox(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name='download_boxs')
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.CASCADE, related_name='download_boxs')
     title = models.CharField(verbose_name=_("عنوان"), max_length=50)
     url = models.URLField(verbose_name=_("لینک دانلود فایل"), max_length=200)
     
@@ -117,7 +117,7 @@ class Downloadbox(models.Model):
         return self.title
  
 class Comment(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name="article_comments")
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.CASCADE, related_name="article_comments")
     name = models.CharField(verbose_name=_("نام و نام خانوادگی"), max_length=50)
     email = models.EmailField(verbose_name=_("ایمیل"), max_length=254)
     text = models.TextField(verbose_name=_("متن نظر"))
@@ -135,8 +135,8 @@ class Comment(models.Model):
         return self.name
     
 class Seo(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING ,related_name="seo")
-    creator = models.ForeignKey(get_user_model(), verbose_name=_("SEO نویسنده"), on_delete=models.DO_NOTHING)
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.CASCADE ,related_name="seo")
+    creator = models.ForeignKey(get_user_model(), verbose_name=_("SEO نویسنده"), on_delete=models.CASCADE)
     description = models.CharField(verbose_name=_("Description"), max_length=165, help_text=_("max length: 165 character"))
     keywords = models.TextField(verbose_name=_("Keywords"), help_text=_("با کاما (,) از هم جدا کنید"))
     refresh = models.CharField(verbose_name=_("Refresh"), max_length=100, blank=True, null=True, default=None, help_text=_("e.g: 3;url=https://www.mozilla.org --> میتواند خالی بماند"))

@@ -1,6 +1,6 @@
 {% load render_partial %}
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="fa" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -18,97 +18,94 @@
 
 <body>
     {% render_partial 'config.views.header' %}
-    <main
-        class="d-flex flex-column flex-md-row col-12 container justify-content-around rounded position-relative gap-3">
-        {% render_partial 'blog_app.views.right_side' %}
+    <main class="d-flex flex-column flex-md-row col container justify-content-around rounded position-relative gap-2">
+        {% render_partial 'blog_app.views.left_side' %}
         {% block content %}
-        <section class="center-sidebar col col-md-7 d-flex flex-column gap-3">
-            {% if today_ads %}
-            <div class="tbs bg-dark rounded">
-                <a href="{{today_ads.url}}">
-                    <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
-                </a>
-            </div>
-            {% else %}
-                <p class="tbs bg-dark rounded d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
-            {% endif %}
-            <div class="posts d-flex flex-column gap-3 p-3 rounded">
-                {% if articles %}
-                {% for article in page_obj %}
-                    <div class="post p-3 bg-dark rounded d-flex flex-column gap-3">
-                        <a href="{{article.get_absolute_url}}" class="text-decoration-none text-white">
-                            <strong class="text-wrap fs-5 fw-bold mb-4">{{article.title}}</strong>
-                        </a>
-                        <div class="detail">
-                            <ul
-                                class="list-unstyled d-flex flex-column flex-md-row bg-black justify-content-around p-2 rounded">
-                                <li class="d-flex gap-1 flex-wrap"><i class="ri-eye-line"></i><span>بازدید: {{article.view_visit}}</span>
-                                </li>
-                                {% if article.author.get_full_name %}<li class="d-flex gap-1 flex-wrap"><i class="ri-user-line"></i><span>نویسنده: {{article.author.get_full_name}}</span></li>{% endif %}
-                                <li class="d-flex gap-1 flex-wrap"><i class="ri-time-line"></i><span>تاریخ انتشار:
-                                        {{article.date_created|date:'Y/m/d'}}</span></li>
-                            </ul>
-                            <div class="post-image">
-                                <a href="{{article.get_absolute_url}}">
-                                    <img src="{{article.image.url}}" alt="{{article.title}}" class="post-img img-fluid w-100">
-                                </a>
-                            </div>
-                            <div class="main-title text-warning fw-bold text-center my-3 mb-5">{{article.title}}</div>
-                            <div class="content text-start">
-                                {{article.content|safe|truncatechars:150}}
-                            </div>
-                            <hr class="text-black">
-                            <div class="post-footer d-flex flex-wrap justify-content-between">
-                                <div class="post-tags">
-                                    <i class="ri-folder-line"></i>
-                                    <a href="{% url 'category' article.category.slug %}" class="text-white text-decoration-none">{{article.category.name}}</a>
+            <section class="center-sidebar col col-md-7 d-flex flex-column gap-3">
+                {% if today_ads %}
+                <div class="tbs bg-dark rounded">
+                    <a href="{{today_ads.url}}">
+                        <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
+                    </a>
+                </div>
+                {% else %}
+                    <p class="tbs bg-dark rounded d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
+                {% endif %}
+                <div class="posts d-flex flex-column gap-3 p-3 rounded">
+                    {% if articles %}
+                    {% for article in page_obj %}
+                        <div class="post p-3 bg-dark rounded d-flex flex-column gap-3">
+                            <a href="{{article.get_absolute_url}}" class="text-decoration-none text-white">
+                                <strong class="text-wrap fs-5 fw-bold mb-4">{{article.title}}</strong>
+                            </a>
+                            <div class="detail">
+                                <ul
+                                    class="list-unstyled d-flex flex-column flex-md-row bg-black justify-content-around p-2 rounded">
+                                    <li class="d-flex gap-1 flex-wrap"><i class="ri-eye-line"></i><span>بازدید: {{article.view_visit}}</span>
+                                    </li>
+                                    {% if article.author.get_full_name %}<li class="d-flex gap-1 flex-wrap"><i class="ri-user-line"></i><span>نویسنده: {{article.author.get_full_name}}</span></li>{% endif %}
+                                    <li class="d-flex gap-1 flex-wrap"><i class="ri-time-line"></i><span>تاریخ انتشار:
+                                            {{article.date_created|date:'Y/m/d'}}</span></li>
+                                </ul>
+                                <div class="post-image">
+                                    <a href="{{article.get_absolute_url}}">
+                                        <img src="{{article.image.url}}" alt="{{article.title}}" class="post-img img-fluid w-100">
+                                    </a>
                                 </div>
-                                <div class="more">
-                                    <a href="{{article.get_absolute_url}}" class="more-btn btn btn-outline-warning">ادامه مطلب</a>
+                                <div class="main-title text-warning fw-bold text-center my-3 mb-5">{{article.title}}</div>
+                                <div class="content text-start">
+                                    {{article.content|safe|truncatechars:150}}
+                                </div>
+                                <hr class="text-black">
+                                <div class="post-footer d-flex flex-wrap justify-content-between">
+                                    <div class="post-tags">
+                                        <i class="ri-folder-line"></i>
+                                        <a href="{% url 'category' article.category.slug %}" class="text-white text-decoration-none">{{article.category.name}}</a>
+                                    </div>
+                                    <div class="more">
+                                        <a href="{{article.get_absolute_url}}" class="more-btn btn btn-outline-warning">ادامه مطلب</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                {% endfor %}
+                    {% endfor %}
+                    {% else %}
+                    <p class="alert alert-warning text-center fw-bold">مقاله ای یافت نشد.</p>
+                    {% endif %}
+                </div>
+                {% if today_ads %}
+                <div class="tbs bg-dark rounded">
+                    <a href="{{today_ads.url}}">
+                        <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
+                    </a>
+                </div>
                 {% else %}
-                <p class="alert alert-warning text-center fw-bold">مقاله ای یافت نشد.</p>
+                    <p class="tbs bg-dark rounded d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
                 {% endif %}
-            </div>
-            {% if today_ads %}
-            <div class="tbs bg-dark rounded">
-                <a href="{{today_ads.url}}">
-                    <img src="{{today_ads.image.url}}" alt="img" class="img-fluid tbs-img w-100 rounded">
-                </a>
-            </div>
-            {% else %}
-                <p class="tbs bg-dark rounded d-flex align-items-center justify-content-center">محل تبلیغ شما</p>
-            {% endif %}
-            <div class="d-flex justify-content-center bg-dark align-items-center rounded">
-                <nav class="mt-4">
-                    <ul class="pagination d-flex gap-3">
-                        {% if page_obj.has_previous %}
-                            <li class="page-item ">
-                                <a class="rounded border-0" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
-                                    <span aria-hidden="true" class="btn btn-outline-warning px-4">قبلی</span>
-                                </a>
-                            </li>
-                        {% endif %}
-                        <li class="page-item active" aria-current="page"><a
-                            class="page-link rounded bg-warning text-dark border-0 px-4" href="?page={{ page_obj.number }}">{{page_obj.number}}</a></li>
-                        {% if page_obj.has_next %}
-                            <li class="page-item">
-                                <a class="rounded border-0" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
-                                    <span aria-hidden="true" class="btn btn-outline-warning px-4">بعدی</span>
-                                </a>
-                            </li>
-                        {% endif %}  
-                    </ul>
-                </nav>
-            </div>
-        </section>
+                <div class="d-flex justify-content-center bg-dark align-items-center rounded">
+                    <nav class="mt-4">
+                        <ul class="pagination d-flex gap-3">
+                            {% if page_obj.has_previous %}
+                                <li class="page-item ">
+                                    <a class="rounded border-0" href="?page={{ page_obj.previous_page_number }}" aria-label="Previous">
+                                        <span aria-hidden="true" class="btn btn-outline-warning px-4">قبلی</span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="page-item active" aria-current="page"><a
+                                class="page-link rounded bg-warning text-dark border-0 px-4" href="?page={{ page_obj.number }}">{{page_obj.number}}</a></li>
+                            {% if page_obj.has_next %}
+                                <li class="page-item">
+                                    <a class="rounded border-0" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Next">
+                                        <span aria-hidden="true" class="btn btn-outline-warning px-4">بعدی</span>
+                                    </a>
+                                </li>
+                            {% endif %}  
+                        </ul>
+                    </nav>
+                </div>
+            </section>
         {% endblock content %}
-
-        {% render_partial 'blog_app.views.left_side' %}
     </main>
     {% render_partial 'config.views.footer' %}
     {% include 'base/footer_referenced.html' %}

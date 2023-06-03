@@ -1,4 +1,5 @@
 {% extends 'base/base.html' %}
+{% load render_partial %}
 {% block seo %}
     <meta name="description" content="{{seo.description}}">
     <meta name="keywords" content="{{seo.keywords}}">
@@ -21,7 +22,7 @@
     {% endif %}
     <div class="post p-3 bg-dark rounded d-flex flex-column gap-3">
         <a href="#" class="text-decoration-none text-white">
-            <strong class="text-wrap fs-5 fw-bold mb-4">{{article.title}}</strong>
+            <h1 class="text-wrap fs-5 fw-bold mb-4">{{article.title}}</h1>
         </a>
         <div class="detail">
             <ul class="list-unstyled d-flex flex-column flex-md-row bg-black justify-content-around p-2 rounded">

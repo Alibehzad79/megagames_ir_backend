@@ -4,7 +4,7 @@ from blog_app.models import Article, Tag, Category
 # Create your models here.
 
 class ArticleDetailPageAds(models.Model):
-    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.DO_NOTHING, related_name="ads")
+    article = models.ForeignKey(Article, verbose_name=_("مقاله"), on_delete=models.CASCADE, related_name="ads")
     client = models.CharField(verbose_name=_("سفارش دهنده"), max_length=50)
     image = models.ImageField(verbose_name=_("عکس / گیف"), upload_to="ads/images/")
     url = models.URLField(verbose_name=_("لینک ارجاع"), max_length=200)
@@ -38,7 +38,7 @@ class HomePageAds(models.Model):
 
 
 class TagPageAds(models.Model):
-    tag = models.ForeignKey(Tag, verbose_name=_("تگ"), on_delete=models.DO_NOTHING, related_name='ads')
+    tag = models.ForeignKey(Tag, verbose_name=_("تگ"), on_delete=models.CASCADE, related_name='ads')
     client = models.CharField(verbose_name=_("سفارش دهنده"), max_length=50)
     image = models.ImageField(verbose_name=_("عکس / گیف"), upload_to="ads/images/")
     url = models.URLField(verbose_name=_("لینک ارجاع"), max_length=200)
@@ -55,7 +55,7 @@ class TagPageAds(models.Model):
         return self.client
 
 class CategoryPageAds(models.Model):
-    category = models.ForeignKey(Category, verbose_name=_("تگ"), on_delete=models.DO_NOTHING, related_name='ads')
+    category = models.ForeignKey(Category, verbose_name=_("تگ"), on_delete=models.CASCADE, related_name='ads')
     client = models.CharField(verbose_name=_("سفارش دهنده"), max_length=50)
     image = models.ImageField(verbose_name=_("عکس / گیف"), upload_to="ads/images/")
     url = models.URLField(verbose_name=_("لینک ارجاع"), max_length=200)

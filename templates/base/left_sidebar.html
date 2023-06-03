@@ -1,31 +1,31 @@
-<section class="left-sidebar col col-md-3 d-flex flex-column gap-4 rounded">
+<section class="left-sidebar col col-md-4 rounded d-flex flex-column gap-4">
     {% if tools %}
-    <div class="bg-dark p-3 rounded">
-        <h4 class="fw-bold">ابزار ها</h4>
-        <ul class="d-flex flex-column flex-wrap list-unstyled">
-            {% for tool in tools %}
-                <li class="fs-4 p-1 text-wrap mt-2">
-                    <a href="{{tool.url}}" class="nav-link text-decoration-none text-white gap-2 d-flex align-items-center">
-                        <img src="{{tool.icon.url}}" alt="{{tool.title}}" class="img-fluid tools-img rounded">
-                        <span class="fs-5">{{tool.title}}</span>
-                    </a>
-                    <small class="app-version">نسخه: {{tool.version}}</small>
-                    <span>|</span>
-                    <small class="app-version">منبع: <a href="{{tool.source}}">{{tool.source}}</a></small>
-                </li>
-                {% if forloop.last %} {% else %} <hr>{% endif %}
-            {% endfor %}
-        </ul>
-    </div>
+        <div class="bg-dark p-3 rounded">
+            <h4 class="fw-bold">ابزار ها</h4>
+            <ul class="d-flex flex-column flex-wrap list-unstyled">
+                {% for tool in tools %}
+                    <li class="fs-4 p-1 text-wrap mt-2">
+                        <a href="{{tool.url}}" class="nav-link text-decoration-none text-white gap-2 d-flex align-items-center">
+                            <img src="{{tool.icon.url}}" alt="{{tool.title}}" class="img-fluid tools-img rounded">
+                            <span class="fs-5">{{tool.title}}</span>
+                        </a>
+                        <small class="app-version">نسخه: {{tool.version}}</small>
+                        <span>|</span>
+                        <small class="app-version">منبع: <a href="{{tool.source}}">{{tool.source}}</a></small>
+                    </li>
+                    {% if forloop.last %} {% else %} <hr>{% endif %}
+                {% endfor %}
+            </ul>
+        </div>
     {% endif %}
     {% if articles %}
-    <div class="bg-dark p-3 rounded">
-        <h4 class="fw-bold">جدیدترین مطالب</h4>
-        <ul class="d-flex flex-column flex-wrap w-100">
-            {% for article in articles %}
+        <div class="bg-dark p-3 rounded">
+            <h4 class="fw-bold">جدید ترین مقاله ها</h4>
+            <ul class="d-flex flex-column flex-wrap">
+                {% for article in articles %}
                 <li class="fs-4 p-1 text-wrap"><a href="{{article.get_absolute_url}}" class="nav-link text-decoration-none text-white">{{article.title}}</a></li>
-            {% endfor %}
-        </ul>
-    </div>
+                {% endfor %}
+            </ul>
+        </div>
     {% endif %}
 </section>
